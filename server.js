@@ -5,7 +5,7 @@ const socketIo = require("socket.io");
 require("dotenv").config();
 
 const app = express();
-const PORT = process.env.PORT || 5005;
+const PORT = process.env.PORT || 50010;
 
 // CORS Setup
 const allowedOrigins = [
@@ -24,12 +24,28 @@ if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
 }
 
 // Nodemailer Setup
+const nodemailer = require("nodemailer");
+console.log(process.env.EMAIL_USER);
+console.log(process.env.SMTP_HOST);
+console.log(process.env.SMTP_PORT);
+console.log(process.env.SMTP_SECURE);
+
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: process.env.SMTP_HOST,
+  port: process.env.SMTP_PORT,
+  secure: process.env.SMTP_SECURE === "true",
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+});
+
+transporter.verify((error, success) => {
+  if (error) {
+    console.error("Error connecting to the email service:", error);
+  } else {
+    console.log("✅ Ready to send emails!");
+  }
 });
 
 // Generate a random order ID

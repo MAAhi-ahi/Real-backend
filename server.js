@@ -5,11 +5,11 @@ const socketIo = require("socket.io");
 require("dotenv").config();
 
 const app = express();
-const PORT = process.env.PORT || 50011;
+const PORT = process.env.PORT || 50010;
 
 // CORS Setup
 const allowedOrigins = [
-  // "http://localhost:5174",
+  "http://localhost:5174",
   "https://bloomify-green.vercel.app",
 ];
 app.use(cors({ origin: allowedOrigins }));
